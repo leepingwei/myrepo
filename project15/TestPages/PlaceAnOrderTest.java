@@ -3,6 +3,7 @@ package project15.TestPages;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import project15.Base.BaseDriver;
 import project15.Pages.*;
 import project15.Util.ItemAndButtonMatchException;
@@ -30,6 +31,8 @@ public class PlaceAnOrderTest extends BaseDriver {
          *  You should complete proceed to checkout process
          *  At the end you should verify success message at the end
          */
+        SoftAssert softAssert = new SoftAssert();
+
         homePage.hoverOverToAProduct();
 
         try{
@@ -50,13 +53,13 @@ public class PlaceAnOrderTest extends BaseDriver {
 
         shippingPage.clickOnProceedToCheckoutButton();
 
-        paymentPage.clickOnPayByCheck();
+        paymentPage.paymentMethodSelector();
 
         paymentConfirmPage.clickOnConfirmButton();
 
         referenceCode = orderConfirmationPage.getReferenceCode();
 
-        Assert.assertTrue(orderConfirmationPage.getOrderCompleteMessage().contains("complete"));
+        softAssert.assertTrue(orderConfirmationPage.getOrderCompleteMessage().contains("complete"));
 
 
     /**
@@ -67,8 +70,10 @@ public class PlaceAnOrderTest extends BaseDriver {
 
         for(WebElement code : myOrdersPage.orderReferenceList){
             String actualCode = code.getText();
-            Assert.assertEquals(actualCode, referenceCode);
+            softAssert.assertEquals(actualCode, referenceCode);
             break;
         }
+
+        softAssert.assertAll();
     }
 }

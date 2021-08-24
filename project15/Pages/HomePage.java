@@ -13,7 +13,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import project15.Base.BaseDriver;
 
 import java.util.List;
-import java.util.Set;
 
 public class HomePage extends BaseDriver {
 
@@ -61,10 +60,7 @@ public class HomePage extends BaseDriver {
     }
 
     public void clickOnProceedToCheckoutButton(){
-        Set<String> windowId = driver.getWindowHandles();
-        for(String ids : windowId){
-            driver.switchTo().window(ids);
-        }
+        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(proceedToCheckout));
         proceedToCheckout.click();
     }
 
